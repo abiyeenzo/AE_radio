@@ -2,21 +2,22 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Radio by Æ - Auto Stream</title>
+  <title>Radio by Æ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       background: #121212;
       color: #eee;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
       padding: 20px;
       overflow: hidden;
       animation: bgPulse 3s ease-in-out infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
     }
 
     @keyframes bgPulse {
@@ -24,13 +25,13 @@
       50% { background-color: #1a1a1a; }
     }
 
+    /* Container commun */
     .container {
       max-width: 400px;
       background: #1f1f1f;
       padding: 40px 30px;
       border-radius: 15px;
       box-shadow: 0 0 25px rgba(0, 255, 224, 0.25);
-      text-align: center;
       animation: float 6s ease-in-out infinite;
     }
 
@@ -39,6 +40,7 @@
       50% { transform: translateY(-5px); }
     }
 
+    /* Emoji */
     .emoji {
       font-size: 4rem;
       margin-bottom: 10px;
@@ -50,27 +52,38 @@
       50% { transform: scale(1.1); opacity: 0.8; }
     }
 
+    /* Off Air spécifique */
+    .off-air {
+      color: #ff5555;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      animation: blink 1s step-start infinite;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Streaming spécifique */
+    .streaming p {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin: 20px 0 0;
+    }
+
+    audio {
+      display: none; /* On cache la barre audio */
+    }
+
     h1 {
       color: #00ffe0;
       margin-bottom: 10px;
       font-size: 2.2rem;
     }
 
-    .streaming {
-      margin: 20px 0;
-    }
-
-    audio {
-      width: 100%;
-      margin-top: 10px;
-      border-radius: 8px;
-    }
-
-    p {
-      font-size: 1.1rem;
-      color: #ccc;
-    }
-
+    /* Responsive */
     @media (max-width: 480px) {
       .container {
         padding: 30px 20px;
@@ -84,33 +97,59 @@
         font-size: 3rem;
       }
 
-      p {
+      .off-air {
+        font-size: 1.2rem;
+      }
+
+      .streaming p {
         font-size: 1rem;
       }
     }
   </style>
-    <script>
+  <script>
     // Pour rediriger vers une autre page quand dispo, décommente :
     // setTimeout(() => window.location.href = 'index.php', 5000);
   </script>
 </head>
 <body>
 
-  <div class="container">
+  <!-- Off Air -->
+  <div id="offAirContainer" class="container" style="display:none;">
+    <div class="emoji">📻⚠️</div>
+    <h1>Radio by Æ</h1>
+    <div class="off-air">🔴 OFF AIR</div>
+    <p>La radio est momentanément indisponible.<br />Merci de revenir un peu plus tard.</p>
+  </div>
+
+  <!-- Streaming -->
+  <div id="streamingContainer" class="container" style="display:none;">
     <div class="emoji">🎧</div>
     <h1>Radio by Æ</h1>
     <p>🎵 En mode automatique – US Rap 24/24</p>
-
     <div class="streaming">
-      <audio controls autoplay>
+      <audio autoplay>
         <source src="http://listen.181fm.com/181-beat_128k.mp3" type="audio/mpeg" />
         Ton navigateur ne supporte pas l'audio.
       </audio>
     </div>
-
     <p>Powered by 181.fm – The Beat 🔥</p>
   </div>
 
+  <script>
+    // true = Off Air, false = streaming en direct
+    const isOffAir = false; // change à true pour tester OFF AIR
+
+    const offAirDiv = document.getElementById('offAirContainer');
+    const streamingDiv = document.getElementById('streamingContainer');
+
+    if (isOffAir) {
+      offAirDiv.style.display = 'block';
+      streamingDiv.style.display = 'none';
+    } else {
+      offAirDiv.style.display = 'none';
+      streamingDiv.style.display = 'block';
+    }
+  </script>
+
 </body>
 </html>
-
