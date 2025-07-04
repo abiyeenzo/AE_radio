@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Radio by Æ - OFF AIR</title>
+  <title>Radio by Æ - Auto Stream</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
@@ -56,17 +56,14 @@
       font-size: 2.2rem;
     }
 
-    .off-air {
-      color: #ff5555;
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      animation: blink 1s step-start infinite;
-      font-weight: bold;
-      letter-spacing: 2px;
+    .streaming {
+      margin: 20px 0;
     }
 
-    @keyframes blink {
-      50% { opacity: 0; }
+    audio {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
     }
 
     p {
@@ -87,28 +84,33 @@
         font-size: 3rem;
       }
 
-      .off-air {
-        font-size: 1.2rem;
-      }
-
       p {
         font-size: 1rem;
       }
     }
   </style>
+    <script>
+    // Pour rediriger vers une autre page quand dispo, décommente :
+    // setTimeout(() => window.location.href = 'index.php', 5000);
+  </script>
 </head>
 <body>
 
   <div class="container">
-    <div class="emoji">📻⚠️</div>
+    <div class="emoji">🎧</div>
     <h1>Radio by Æ</h1>
-    <div class="off-air">🔴 OFF AIR</div>
-    <p>La radio est momentanément indisponible.<br />Merci de revenir un peu plus tard.</p>
+    <p>🎵 En mode automatique – US Rap 24/24</p>
+
+    <div class="streaming">
+      <audio controls autoplay>
+        <source src="http://listen.181fm.com/181-beat_128k.mp3" type="audio/mpeg" />
+        Ton navigateur ne supporte pas l'audio.
+      </audio>
+    </div>
+
+    <p>Powered by 181.fm – The Beat 🔥</p>
   </div>
 
-  <script>
-    // Pour rediriger vers une autre page quand dispo, décommente :
-    // setTimeout(() => window.location.href = 'index.php', 5000);
-  </script>
 </body>
 </html>
+
