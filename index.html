@@ -25,7 +25,6 @@
       50% { background-color: #1a1a1a; }
     }
 
-    /* Container commun */
     .container {
       max-width: 400px;
       background: #1f1f1f;
@@ -33,6 +32,7 @@
       border-radius: 15px;
       box-shadow: 0 0 25px rgba(0, 255, 224, 0.25);
       animation: float 6s ease-in-out infinite;
+      position: relative;
     }
 
     @keyframes float {
@@ -40,7 +40,6 @@
       50% { transform: translateY(-5px); }
     }
 
-    /* Emoji */
     .emoji {
       font-size: 4rem;
       margin-bottom: 10px;
@@ -52,7 +51,6 @@
       50% { transform: scale(1.1); opacity: 0.8; }
     }
 
-    /* Off Air spécifique */
     .off-air {
       color: #ff5555;
       font-size: 1.5rem;
@@ -66,15 +64,33 @@
       50% { opacity: 0; }
     }
 
-    /* Streaming spécifique */
     .streaming p {
       font-size: 1.1rem;
       color: #ccc;
       margin: 20px 0 0;
     }
 
+    /* Barre audio invisible */
     audio {
-      display: none; /* On cache la barre audio */
+      display: none;
+    }
+
+    /* Bouton lecture */
+    #playButton {
+      background: #00ffe0;
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      padding: 12px 25px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    #playButton:hover {
+      background: #00cca8;
     }
 
     h1 {
@@ -104,12 +120,13 @@
       .streaming p {
         font-size: 1rem;
       }
+
+      #playButton {
+        font-size: 1rem;
+        padding: 10px 20px;
+      }
     }
   </style>
-  <script>
-    // Pour rediriger vers une autre page quand dispo, décommente :
-    // setTimeout(() => window.location.href = 'index.php', 5000);
-  </script>
 </head>
 <body>
 
@@ -127,10 +144,11 @@
     <h1>Radio by Æ</h1>
     <p>🎵 En mode automatique – US Rap 24/24</p>
     <div class="streaming">
-      <audio autoplay>
+      <audio id="audioPlayer" preload="auto">
         <source src="http://listen.181fm.com/181-beat_128k.mp3" type="audio/mpeg" />
         Ton navigateur ne supporte pas l'audio.
       </audio>
+      <button id="playButton" style="display:none;">▶️ Écouter la radio</button>
     </div>
     <p>Powered by 181.fm – The Beat 🔥</p>
   </div>
@@ -141,6 +159,8 @@
 
     const offAirDiv = document.getElementById('offAirContainer');
     const streamingDiv = document.getElementById('streamingContainer');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playBtn = document.getElementById('playButton');
 
     if (isOffAir) {
       offAirDiv.style.display = 'block';
@@ -148,8 +168,34 @@
     } else {
       offAirDiv.style.display = 'none';
       streamingDiv.style.display = 'block';
+
+      // Essayer de lancer la lecture automatique
+      audioPlayer.play()
+        .then(() => {
+          // Lecture auto OK, on cache le bouton
+          playBtn.style.display = 'none';
+        })
+        .catch(() => {
+          // Autoplay bloqué, on montre le bouton
+          playBtn.style.display = 'inline-block';
+        });
+
+      // Quand l'utilisateur clique sur le bouton, on lance la radio
+      playBtn.addEventListener('click', () => {
+        audioPlayer.play()
+          .then(() => {
+            playBtn.style.display = 'none';
+          })
+          .catch(err => {
+            alert('Impossible de lancer la radio. Merci de réessayer.');
+            console.error(err);
+          });
+      });
     }
   </script>
-
+<script>
+    // Pour rediriger vers une autre page quand dispo, décommente :
+    // setTimeout(() => window.location.href = 'index.php', 5000);
+  </script>
 </body>
 </html>
